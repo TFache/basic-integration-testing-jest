@@ -6,6 +6,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2.4.0
+    - name: Create mongoDB Docker container      
+      run: sudo docker run -p 27017:27017 mongo:latest
     - name: Setup Node.js environment
       uses: actions/setup-node@v2.5.1
       with:
