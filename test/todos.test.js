@@ -38,7 +38,7 @@ describe("GET /todos", () => {
     })
 
     test("should respond with list of existing todos", async () => {
-        const firstInsert = getDB().collection("todos").insertOne({
+        getDB().collection("todos").insertOne({
             title: "Todo de test 1",
             completed: false,
             createdAt: new Date(),
@@ -47,6 +47,8 @@ describe("GET /todos", () => {
         const response = await request(app.callback()).get(baseUrl)
         console.log(response.body)
         expect(response.body[0].title).toBe("Todo de test 1")
+        expect(response.body[0].completed).toBe(false)
+        expect(Array.isArray(response.body)).toBe(true)
 
     })
 })
