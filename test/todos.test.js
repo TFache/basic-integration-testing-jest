@@ -12,23 +12,41 @@ beforeAll(async () => {
     await connectToDB(MONGODB_URI, MONGODB_DB)
 })
 
+afterEach(async () => {
+    const db = getDB()
+    await db.dropCollection("todos")
+})
+
+beforeEach(async () => {
+    const db = getDB()
+    await db.createCollection("todos")
+})
+
 afterAll(async () => {
     closeConnection()
 })
 
 describe("GET /todos", () => {
     test("should respond with a 200 status code", async () => {
-        // TODO
-        fail("Not yet implemented")
+        const response = await request(app.callback()).get(baseUrl)
+        expect(response.statusCode).toBe(200)
     })
 
     test("should respond with JSON", async () => {
-        // TODO
-        fail("Not yet implemented")
+        const response = await request(app.callback()).get(baseUrl)
+        expect(response.type).toBe("application/json")
     })
 
     test("should respond with list of existing todos", async () => {
-        // TODO
-        fail("Not yet implemented")
+        const firstInsert = getDB().collection("todos").insertOne({
+            title: "Todo de test 1",
+            completed: false,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        })
+        const response = await request(app.callback()).get(baseUrl)
+        console.log(response.body)
+        expect(response.body[0].title).toBe("Todo de test 1")
+
     })
 })
