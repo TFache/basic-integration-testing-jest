@@ -57,3 +57,21 @@ describe("GET /todos", () => {
         expect(response.body.length).toBe(2)
     })
 })
+
+describe("POST /todos with title", () => {
+    test("should respond with a 200 status code", async () => {
+        const response = await request(app.callback()).post(baseUrl).send({title :"Todo de test POST 1"})
+        expect(response.statusCode).toBe(200)
+    })
+    test("should respond with JSON", async () => {
+        const response = await request(app.callback()).post(baseUrl).send({title :"Test de Todo POST 1"})
+        expect(response.type).toBe("application/json")
+    })
+    test("should add the todo to the list of todos", async () => {
+        await request(app.callback()).post(baseUrl).send({title :"Test de Todo POST 1"})
+        const get = await request(app.callback()).get(baseUrl)
+        expect(get.body[0].title).toBe("Test de Todo POST 1")
+        expect(get.body[0].completed).toBe(false)
+        expect(get.body.length).toBe(1)
+    })
+})
