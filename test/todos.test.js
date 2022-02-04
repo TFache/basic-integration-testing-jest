@@ -54,6 +54,6 @@ describe("GET /todos", () => {
         expect(response.body[0].title).toBe("Todo de test 1")
         expect(response.body[1].title).toBe("Todo de test 2")
         expect(Array.isArray(response.body)).toBe(true)
-
+        expect(response.body.length).toBe(2)
     })
 })
