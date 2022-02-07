@@ -90,3 +90,18 @@ describe("POST /todos without title", () => {
         expect(response.body.errorMsg).toBe("Missing parameter 'title'")
     })
 })
+
+describe("POST /todos with invalid title", () => {
+    test("should respond with a 412 status code", async () => {
+        const response = await request(app.callback()).post(baseUrl).send({title :""})
+        expect(response.statusCode).toBe(412)
+    })
+    test("should respond with JSON", async () => {
+        const response = await request(app.callback()).post(baseUrl).send({title :""})
+        expect(response.type).toBe("application/json")
+    })
+    test("should respond with errorMsg", async () => {
+        const response = await request(app.callback()).post(baseUrl).send({title :""})
+        expect(response.body.errorMsg).toBe("Parameter 'title' can't be empty")
+    })
+})
