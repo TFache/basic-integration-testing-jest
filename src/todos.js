@@ -25,6 +25,9 @@ async function createTodo (ctx) {
     if (title === null || title === undefined) {
         ctx.status = 422
         ctx.body = { errorMsg: "Missing parameter 'title'" }
+    } else if (title === "") {
+        ctx.status = 412
+        ctx.body = { errorMsg: "Parameter 'title' can't be empty" }
     } else {
         const result = await getDB().collection("todos").insertOne({
             title,
